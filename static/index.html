@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/parser-demo.css">
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <title>MilkCat</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="logo"><img src="milkcat_logo.png"></div>
+      <div class="input-form">
+        <input type="text" class="form-control" id="sentence" placeholder="在此输入句子" value="我的猫喜欢喝牛奶。" onkeydown="javascript: if (event.keyCode == 13) parseClick();">
+        <!-- Split button -->
+        <div class="btn-group">
+          <button type="button" class="btn btn-default disabled" id="predict">依存分析</button>
+          <button type="button" class="btn btn-default dropdown-toggle disabled" data-toggle="dropdown" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a id="dr-seg" href="javascript:;">分词</a></li>
+            <li><a id="dr-postag" href="javascript:;">词性标注</a></li>
+            <li><a id="dr-depparse" href="javascript:;">依存分析</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="result">
+        <div class="result-container tree-container">
+          <div class="tree"></div>
+          <div class="tree-info">注: 当有多个句子时，默认分析第一句。</div>
+        </div>
+
+        <div class="result-container text-container">
+        </div>
+        <span class="label label-default waiting-message">少女祈祷中</span>
+        <span class="label label-danger error-message">出错了呢</span>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h4>关于MilkCat</h4>
+          MilkCat是由C++实现的开源依存句法分析库，自带中文分词以及词性标注，当然也可以作为分词和词性标注库来使用。MilkCat除了提供C++ API本身外，还支持C、python、Go等多种语言的接口。详情请围观 <a href="https://github.com/milkcat/MilkCat">MilkCat的Github主页</a>
+          <h4>下载</h4>
+          当前版本: <a href="http://milkcat.qiniudn.com/milkcat-0.4.1.tar.gz">milkcat-0.4.1.tar.gz</a><br />
+          安装以及使用方法请围观 <a href="https://github.com/milkcat/MilkCat">MilkCat的Github主页</a>
+        </div>
+        <div class="col-md-6">
+          <h4>模型以及性能</h4>
+          <h5>分词</h5>
+          BIGRAM: 3.5MB/s, F=94.6% (bakeoff2005 MSRA)<br />
+          CRF: 1.5MB/s, F=96.6% <br />
+          BIGRAM+CRF未登录词识别: 2.0MB/s<br />
+          <h5>词性标注</h5>
+          CRF: 61.5k word/s, TA=93.9% (CTB8)
+          <h5>依存句法分析</h5>
+          Yamada: 45.5k word/s, UAS=82.9 (CTB5)<br />
+          Beam Yamada: 8.4k word/s, UAS=84.9 (CTB5)
+        </div>
+      </div>
+      <br />
+      <div class="footer">© 2015 MilkCat Project</div>
+    </div>
+    <script src="http://libs.baidu.com/underscore/1.3.3/underscore-min.js"></script>
+    <script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="js/parser-demo.js"></script>
+  </body>
+</html>
