@@ -7,6 +7,7 @@ import (
   "net/http"
   "milkcat"
   "deptree2svg"
+  "flag"
 )
 
 var parser *milkcat.Parser = nil
@@ -47,6 +48,9 @@ func parserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+  staticPtr := flag.String("static", "static", "the static directory")
+  flag.Parse()
+
   parserOpt := milkcat.NewParserOptions()
   parserOpt.UseMixedSegmenter()
   parserOpt.UseFastCrfPOSTagger()
@@ -58,7 +62,7 @@ func main() {
     log.Fatal(err)
   }
 
-  fs := http.FileServer(http.Dir("static"))
+  fs := http.FileServer(http.Dir(*staticPtr))
   http.Handle("/", fs)
 
   http.HandleFunc("/tree2svg", treeSVGHandler)
