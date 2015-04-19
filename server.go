@@ -13,6 +13,7 @@ var parser *milkcat.Parser = nil
 
 func treeSVGHandler(w http.ResponseWriter, r *http.Request) {
   query := r.FormValue("q")
+  contentType := r.FormValue("ct")
   sentence := parser.Predict(query)
   tree := deptree2svg.NewTree()
   for idx, item := range sentence {
@@ -24,6 +25,10 @@ func treeSVGHandler(w http.ResponseWriter, r *http.Request) {
              item.PartOfSpeechTag,
              item.Head,
              item.DependencyLabel)
+  }
+
+  if contentType == "svg" {
+    w.Header().Set("Content-Type", "image/svg+xml")
   }
 
   fmt.Fprintln(w, deptree2svg.TreeToSVG(tree))
