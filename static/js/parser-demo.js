@@ -24,7 +24,7 @@ var doParse = function () {
   sentenceText = sentenceText.replace(/[><]/, '');
   if (sentenceText == '') return ;
 
-  var treeUrl = 'tree2svg?q=' + encodeURI(sentenceText);
+  var treeUrl = 'tree2svg?q=' + encodeURIComponent(sentenceText);
   request(treeUrl, function (data) {
     $('.tree-container').show();
     $('.tree').html(data);
@@ -38,7 +38,7 @@ var doPredict = function (textMapFunc) {
   sentenceText = sentenceText.replace(/[><]/, '');
   if (sentenceText == '') return ;
 
-  var predictUrl = 'predict?q=' + encodeURI(sentenceText);
+  var predictUrl = 'predict?q=' + encodeURIComponent(sentenceText);
   request(predictUrl, function (data) {
     var jsonObj = JSON.parse(data);
     var text = _.map(jsonObj, textMapFunc);

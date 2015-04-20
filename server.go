@@ -8,12 +8,14 @@ import (
   "milkcat"
   "deptree2svg"
   "flag"
+  "strings"
 )
 
 var parser *milkcat.Parser = nil
 
 func treeSVGHandler(w http.ResponseWriter, r *http.Request) {
-  query := r.FormValue("q")
+  query := strings.Split(r.FormValue("q"), "\n")[0]
+  log.Printf("Predict: %s\n", query)
   contentType := r.FormValue("ct")
   sentence := parser.Predict(query)
   tree := deptree2svg.NewTree()
