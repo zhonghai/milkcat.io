@@ -9,15 +9,18 @@ import (
   "deptree2svg"
   "flag"
   "strings"
+  "sync"
 )
 
 var parser *milkcat.Parser = nil
+var predictMutex sync.Mutex
 
 func treeSVGHandler(w http.ResponseWriter, r *http.Request) {
   query := strings.Split(r.FormValue("q"), "\n")[0]
-  log.Printf("Predict: %s\n", query)
   contentType := r.FormValue("ct")
+  predictMutex.Lock()
   sentence := parser.Predict(query)
+  predictMutex.Unlock()
   tree := deptree2svg.NewTree()
   for idx, item := range sentence {
     // Ignores the other sentences
@@ -39,7 +42,9 @@ func treeSVGHandler(w http.ResponseWriter, r *http.Request) {
 
 func parserHandler(w http.ResponseWriter, r *http.Request) {
   query := r.FormValue("q")
+  predictMutex.Lock()
   sentence := parser.Predict(query)
+  predictMutex.Unlock()
   b, err := json.Marshal(sentence)
   if err != nil {
     http.Error(w, err.Error(), 500)
